@@ -9,6 +9,7 @@ const path = require("path");
 const logDir = path.join(path.resolve(__dirname, ".."), "/logs");
 
 const dbLogger = new winston.transports.MongoDB({
+  // db: "mongodb+srv://punchcodestudios:Dragon8473@punchcodestudios.nppuj2s.mongodb.net/punchcodestudios?retryWrites=true&w=majority&appName=punchcodestudios", //process.env.MONGO_DB_CONNECTION,
   db: process.env.MONGO_DB_CONNECTION,
   level: "error",
 });
