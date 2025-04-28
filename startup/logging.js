@@ -8,9 +8,15 @@ const { combine, timestamp, json, errors, uncolorize } = winston.format;
 const path = require("path");
 const logDir = path.join(path.resolve(__dirname, ".."), "/logs");
 
+console.log("logger connection");
+
+const connection =
+  process.env.MONGO_DB_CONNECTION === undefined
+    ? "mongodb://127.0.0.1:27017/reactportfolio"
+    : process.env.MONGO_DB_CONNECTION;
+
 const dbLogger = new winston.transports.MongoDB({
-  // db: "mongodb+srv://punchcodestudios:Dragon8473@punchcodestudios.nppuj2s.mongodb.net/punchcodestudios?retryWrites=true&w=majority&appName=punchcodestudios", //process.env.MONGO_DB_CONNECTION,
-  db: process.env.MONGO_DB_CONNECTION,
+  db: connection,
   level: "error",
 });
 
