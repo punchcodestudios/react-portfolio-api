@@ -85,8 +85,8 @@ if (isDev) {
 require("./startup/logging");
 const logger = winston.loggers.get("appLogger");
 require("./startup/prod")(app);
-require("./startup/routes")(app);
-require("./startup/db")(logger);
+// require("./startup/routes")(app);
+// require("./startup/db")(logger);
 
 // const config = require("config");
 // if (!config.get("jwtPrivateKey")) {
@@ -104,12 +104,10 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 console.log("index.js: 105");
-// if (!isDev) {
-// app.use(express.static(path.join(__dirname, "/web/build/client")));
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
-// }
 
 console.log("index.js: 113");
 // General
