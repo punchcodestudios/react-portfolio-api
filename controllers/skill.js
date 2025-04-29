@@ -20,7 +20,8 @@ const getAllSkills = errorHandler(async (req, res, next) => {
 });
 
 const addSkills = errorHandler(async (req, res, next) => {
-  //console.log("addSkills: ", [...req.body]);
+  return next();
+  console.log("addSkills: ", [...req.body]);
   try {
     const array = [...req.body];
     array.forEach(async (item) => {
@@ -60,6 +61,7 @@ const addSkills = errorHandler(async (req, res, next) => {
 });
 
 const updateSkill = errorHandler(async (req, res, next) => {
+  return next();
   const { error } = validate(req.body);
   if (error) return next(createError(400, error.details[0].message));
 
@@ -89,6 +91,7 @@ const updateSkill = errorHandler(async (req, res, next) => {
 });
 
 const deleteSkill = errorHandler(async (req, res, next) => {
+  return next();
   try {
     const skill = await Skill.findByIdAndRemove(req.params.id);
     if (!skill)
@@ -118,6 +121,7 @@ const getSkillById = errorHandler(async (req, res, next) => {
 });
 
 const seedSkills = errorHandler(async (req, res, next) => {
+  return next();
   const data = req.body;
   data.forEach(async (item) => {
     let { error } = validate(item);

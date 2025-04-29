@@ -16,6 +16,7 @@ const getTasks = errorHandler(async (req, res, next) => {
 });
 
 const addTask = errorHandler(async (req, res, next) => {
+  return next();
   let task = new Task({
     title: req.body.title,
     description: req.body.description,
@@ -33,6 +34,7 @@ const addTask = errorHandler(async (req, res, next) => {
 });
 
 const updateTask = errorHandler(async (req, res, next) => {
+  return next();
   const data = await Task.findByIdAndUpdate(
     req.body.id,
     {
@@ -50,6 +52,7 @@ const updateTask = errorHandler(async (req, res, next) => {
 });
 
 const completeTask = errorHandler(async (req, res, next) => {
+  return next();
   let data = await Task.findOneAndUpdate(
     { _id: req.body.id },
     {

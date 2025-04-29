@@ -85,8 +85,8 @@ if (isDev) {
 require("./startup/logging");
 const logger = winston.loggers.get("appLogger");
 require("./startup/prod")(app);
-// require("./startup/routes")(app);
-// require("./startup/db")(logger);
+require("./startup/routes")(app);
+require("./startup/db")(logger);
 
 // const config = require("config");
 // if (!config.get("jwtPrivateKey")) {
