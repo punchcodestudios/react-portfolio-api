@@ -1,11 +1,14 @@
 //https://www.codemzy.com/blog/react-axios-interceptor
 const winston = require("winston");
 require("dotenv").config();
+console.log("api start");
 
 process.on("unhandledRejection", (ex) => {
   console.log("unhandled Rejection: ", ex);
   throw `${ex.message} | exception: ${ex}`;
 });
+
+console.log("api after exception handling");
 
 const express = require("express");
 const app = express();
