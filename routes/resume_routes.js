@@ -11,7 +11,12 @@ router.get(
   responseController.sendSuccessResponse
 );
 router.get(
-  "/get-skill/{id}",
+  "/get-skills-by-slug/:slug",
+  skillController.getSkillsBySlug,
+  responseController.sendSuccessResponse
+);
+router.get(
+  "/get-skill/:id",
   skillController.getSkillById,
   responseController.sendSuccessResponse
 );

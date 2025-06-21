@@ -10,10 +10,7 @@ const logDir = path.join(path.resolve(__dirname, ".."), "/logs");
 
 console.log("logger connection");
 
-const connection =
-  process.env.MONGO_DB_CONNECTION === undefined
-    ? "mongodb://127.0.0.1:27017/reactportfolio"
-    : process.env.MONGO_DB_CONNECTION;
+const connection = process.env.MONGO_DB_CONNECTION;
 
 const dbLogger = new winston.transports.MongoDB({
   db: connection,

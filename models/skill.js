@@ -21,7 +21,7 @@ const SkillSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 5,
-    maxlength: 50,
+    maxlength: 250,
   },
   skill_types: {
     type: Array,
@@ -36,7 +36,7 @@ function validateSkill(skill) {
     name: Joi.string().max(50).required(),
     refid: Joi.string().required(),
     description: Joi.string().min(5).max(250).required(),
-    slug: Joi.string().min(5).max(50).required(),
+    slug: Joi.string().min(5).max(250).required(),
     skill_types: Joi.array().items(),
   };
 

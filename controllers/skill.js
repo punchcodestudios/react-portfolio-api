@@ -12,7 +12,18 @@ const getAllSkills = errorHandler(async (req, res, next) => {
       foreignField: "refid",
     });
     req.data = allSkills;
-    console.log("all skills: ", allSkills);
+    // console.log("all skills: ", allSkills);
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+const getSkillsBySlug = errorHandler(async (req, res, next) => {
+  try {
+    const param = req.params["slug"];
+    const skills = await Skill.find({ slug: { $regex: param } });
+    req.data = skills;
     return next();
   } catch (error) {
     return next(error);
@@ -121,14 +132,14 @@ const getSkillById = errorHandler(async (req, res, next) => {
 });
 
 const seedSkills = errorHandler(async (req, res, next) => {
-  return next();
+  // return next();
   const data = req.body;
-  data.forEach(async (item) => {
-    let { error } = validate(item);
-    if (error) return next(createError(400, error.details[0].message));
-  });
-
   try {
+    data.forEach(async (item) => {
+      let { error } = validate(item);
+      if (error) return next(createError(400, error.details[0].message));
+    });
+
     await mongoose.connection.db.dropCollection("skills");
     await Skill.insertMany(req.body);
 
@@ -140,12 +151,13 @@ const seedSkills = errorHandler(async (req, res, next) => {
       return next(createError(400, error.message));
     };
   }
-  return next(createError(400, "unepected end of method."));
+  return next(createError(400, "unexpected end of method."));
 });
 
 module.exports = {
   getAllSkills,
   getSkillById,
+  getSkillsBySlug,
   deleteSkill,
   addSkills,
   updateSkill,
