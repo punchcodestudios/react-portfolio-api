@@ -23,15 +23,16 @@ const sendContact = errorHandler(async (req, res, next) => {
       </ul>
       <p>${req.body.params.message}</p>`,
     };
-    sgMail
-      .send(msg)
-      .then(() => {
-        console.log("mail.js: send message");
-        return next();
-      })
-      .catch((error) => {
-        return next(createError(500, `Error sending email: ${error}`));
-      });
+    // SendGrid subscription has been disabled temporarily
+    // sgMail
+    //   .send(msg)
+    //   .then(() => {
+    //     console.log("mail.js: send message");
+    //     return next();
+    //   })
+    //   .catch((error) => {
+    //     return next(createError(500, `Error sending email: ${error}`));
+    //   });
   } catch (error) {
     return next(createError(418, `Error generating email template: ${error}`));
   }

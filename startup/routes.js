@@ -6,6 +6,7 @@ const sendMail = require("../routes/mail_routes");
 const tasks = require("../routes/task_routes");
 const resume = require("../routes/resume_routes");
 const auth = require("../routes/auth_routes");
+const exam = require("../routes/exam_routes");
 
 const error = require("../middleware/catchError");
 
@@ -19,6 +20,7 @@ module.exports = function (app) {
   app.use("/api/mail", sendMail);
   app.use("/api/tasks", tasks);
   app.use("/api/resume", resume);
+  app.use("/api/exam", exam);
   // global error handling
   app.use(error);
 };
