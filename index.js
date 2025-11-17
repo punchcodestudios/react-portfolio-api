@@ -74,15 +74,15 @@ app.use((req, res, next) => {
 // -- END Rate Limiting
 
 console.log("before cors check isDev: ", isDev);
-if (isDev) {
-  app.use(
-    cors({
-      origin: ["http://localhost:5174", "http://localhost:5173"],
-      methods: ["POST", "PUT", "GET", "DELETE"],
-      credentials: true,
-    })
-  );
-}
+// if (isDev) {
+app.use(
+  cors({
+    origin: ["http://localhost:5174", "http://localhost:5173"],
+    methods: ["POST", "PUT", "GET", "DELETE"],
+    credentials: true,
+  })
+);
+// }
 
 // console.log("db: ", process.env.MONGO_DB_CONNECTION);
 require("./startup/logging");
