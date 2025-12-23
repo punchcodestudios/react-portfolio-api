@@ -87,7 +87,12 @@ app.use(
     ],
     credentials: false, // Set to true only if you need cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "x-correlation-id",
+    ],
   })
 );
 // }

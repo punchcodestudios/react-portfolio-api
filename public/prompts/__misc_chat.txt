@@ -1,0 +1,163 @@
+i am recieveing an CORS error when trying to access the production api from the production front end.
+Any thoughts?
+Here is the browser console:
+
+﻿
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.195Z] 🚪 Application unloading 
+Navigated to https://www.punchcodestudios.com/about
+resume-service-C00OAlHA.js:50 [nodeApiClient] Using development fallback: https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.643Z] ResumeService initialized 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.643Z] SkillsService initialized 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.643Z] ExperienceService initialized 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.643Z] EducationService initialized 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.643Z] ResumeService initialized 
+portfolioFunctionsClient-Bd5ybZ_A.js:1 [portfolioFunctionsClient] Using environment URL: https://func-portfolio-api-services.azurewebsites.net
+portfolioFunctionsClient-Bd5ybZ_A.js:1 [portfolioFunctionsClient] Initializing with baseURL: https://func-portfolio-api-services.azurewebsites.net
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.647Z] Fetching skills from backend 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.647Z] Fetching experience from backend 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.647Z] Fetching education from backend 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.648Z] ExamService initialized 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.648Z] ExamListService initialized 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.648Z] ExamDetailService initialized 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.648Z] ExamService initialized 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.648Z] Fetching exam metadata from Azure Functions 
+resume-service-C00OAlHA.js:50 [nodeApiClient] → GET /resume/get-all-skills
+resume-service-C00OAlHA.js:50 [nodeApiClient] Correlation ID: d882e9e6-333c-48d1-a671-ae8fe991f660
+resume-service-C00OAlHA.js:50 [nodeApiClient] → GET /resume/get-all-experience
+resume-service-C00OAlHA.js:50 [nodeApiClient] Correlation ID: 9b9ddbbd-8b97-442a-9954-3214d5db20b8
+resume-service-C00OAlHA.js:50 [nodeApiClient] → GET /resume/get-all-education
+resume-service-C00OAlHA.js:50 [nodeApiClient] Correlation ID: 22fa222e-998d-46fe-a5ad-bedcd9b106af
+portfolioFunctionsClient-Bd5ybZ_A.js:1 [portfolioFunctionsClient] → GET /api/exams
+portfolioFunctionsClient-Bd5ybZ_A.js:1 [portfolioFunctionsClient] Correlation ID: c85fefd6-6d43-4446-a133-d7fbcdc4ee07
+entry.client-D0dWLKsz.js:226 Download the React DevTools for a better development experience: https://react.dev/link/react-devtools
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.743Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.744Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.807Z] Fetching skills from backend 
+resume-service-C00OAlHA.js:50 [nodeApiClient] → GET /resume/get-all-skills
+resume-service-C00OAlHA.js:50 [nodeApiClient] Correlation ID: b00a599f-4338-47aa-80ac-bccfeff15079
+about:1 
+ Access to XMLHttpRequest at 'https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api/resume/get-all-education?params%5Bid%5D=' from origin 'https://www.punchcodestudios.com' has been blocked by CORS policy: Request header field x-correlation-id is not allowed by Access-Control-Allow-Headers in preflight response.
+resume-service-C00OAlHA.js:50 
+ [nodeApiClient] Response error: 
+M {message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK', config: {…}, request: XMLHttpRequest, …}
+resume-service-C00OAlHA.js:50 
+ [nodeApiClient] Network error: Network error. Please check your connection and try again.
+resume-service-C00OAlHA.js:14 
+ ❌ [2025-12-23T04:59:49.861Z] Failed to fetch education: Network error. Please check your connection and try again. NodeApiError: Network error. Please check your connection and try again.
+    at resume-service-C00OAlHA.js:50:49303
+    at async Be.request (index-CW8bdCKN.js:103:1989)
+    at async VP.getEducationImplementation (resume-service-C00OAlHA.js:50:51586)
+    at async ll.fetchData (resume-service-C00OAlHA.js:50:46239)
+index-CW8bdCKN.js:101 
+ 
+ GET https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api/resume/get-all-education?params%5Bid%5D= net::ERR_FAILED
+about:1 
+ Access to XMLHttpRequest at 'https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api/resume/get-all-skills?params%5Bid%5D=' from origin 'https://www.punchcodestudios.com' has been blocked by CORS policy: Request header field x-correlation-id is not allowed by Access-Control-Allow-Headers in preflight response.
+resume-service-C00OAlHA.js:50 
+ [nodeApiClient] Response error: 
+M {message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK', config: {…}, request: XMLHttpRequest, …}
+resume-service-C00OAlHA.js:50 
+ [nodeApiClient] Network error: Network error. Please check your connection and try again.
+resume-service-C00OAlHA.js:14 
+ ❌ [2025-12-23T04:59:49.862Z] Failed to fetch skills: Network error. Please check your connection and try again. NodeApiError: Network error. Please check your connection and try again.
+    at resume-service-C00OAlHA.js:50:49303
+    at async Be.request (index-CW8bdCKN.js:103:1989)
+    at async VP.getSkillsImplementation (resume-service-C00OAlHA.js:50:50489)
+    at async ll.fetchData (resume-service-C00OAlHA.js:50:46239)
+index-CW8bdCKN.js:101 
+ 
+ GET https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api/resume/get-all-skills?params%5Bid%5D= net::ERR_FAILED
+resume-service-C00OAlHA.js:50 
+ Uncaught (in promise) NodeApiError: Network error. Please check your connection and try again.
+    at resume-service-C00OAlHA.js:50:49303
+    at async Be.request (index-CW8bdCKN.js:103:1989)
+    at async VP.getEducationImplementation (resume-service-C00OAlHA.js:50:51586)
+    at async ll.fetchData (resume-service-C00OAlHA.js:50:46239)
+resume-service-C00OAlHA.js:50 
+ Uncaught (in promise) NodeApiError: Network error. Please check your connection and try again.
+    at resume-service-C00OAlHA.js:50:49303
+    at async Be.request (index-CW8bdCKN.js:103:1989)
+    at async VP.getSkillsImplementation (resume-service-C00OAlHA.js:50:50489)
+    at async ll.fetchData (resume-service-C00OAlHA.js:50:46239)
+about:1 
+ Access to XMLHttpRequest at 'https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api/resume/get-all-experience?params%5Bid%5D=' from origin 'https://www.punchcodestudios.com' has been blocked by CORS policy: Request header field x-correlation-id is not allowed by Access-Control-Allow-Headers in preflight response.
+resume-service-C00OAlHA.js:50 
+ [nodeApiClient] Response error: 
+M {message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK', config: {…}, request: XMLHttpRequest, …}
+resume-service-C00OAlHA.js:50 
+ [nodeApiClient] Network error: Network error. Please check your connection and try again.
+resume-service-C00OAlHA.js:14 
+ ❌ [2025-12-23T04:59:49.864Z] Failed to fetch experience: Network error. Please check your connection and try again. NodeApiError: Network error. Please check your connection and try again.
+    at resume-service-C00OAlHA.js:50:49303
+    at async Be.request (index-CW8bdCKN.js:103:1989)
+    at async VP.getExperienceImplementation (resume-service-C00OAlHA.js:50:51031)
+    at async ll.fetchData (resume-service-C00OAlHA.js:50:46239)
+index-CW8bdCKN.js:101 
+ 
+ GET https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api/resume/get-all-experience?params%5Bid%5D= net::ERR_FAILED
+resume-service-C00OAlHA.js:50 
+ Uncaught (in promise) NodeApiError: Network error. Please check your connection and try again.
+    at resume-service-C00OAlHA.js:50:49303
+    at async Be.request (index-CW8bdCKN.js:103:1989)
+    at async VP.getExperienceImplementation (resume-service-C00OAlHA.js:50:51031)
+    at async ll.fetchData (resume-service-C00OAlHA.js:50:46239)
+about:1 
+ Access to XMLHttpRequest at 'https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api/resume/get-all-skills?params%5Bid%5D=' from origin 'https://www.punchcodestudios.com' has been blocked by CORS policy: Request header field x-correlation-id is not allowed by Access-Control-Allow-Headers in preflight response.
+resume-service-C00OAlHA.js:50 
+ [nodeApiClient] Response error: 
+M {message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK', config: {…}, request: XMLHttpRequest, …}
+resume-service-C00OAlHA.js:50 
+ [nodeApiClient] Network error: Network error. Please check your connection and try again.
+resume-service-C00OAlHA.js:14 
+ ❌ [2025-12-23T04:59:49.915Z] Failed to fetch skills: Network error. Please check your connection and try again. NodeApiError: Network error. Please check your connection and try again.
+    at resume-service-C00OAlHA.js:50:49303
+    at async Be.request (index-CW8bdCKN.js:103:1989)
+    at async VP.getSkillsImplementation (resume-service-C00OAlHA.js:50:50489)
+    at async ll.fetchData (resume-service-C00OAlHA.js:50:46239)
+    at async useSkillsResource-CoL9Sl4U.js:1:451
+index-CW8bdCKN.js:101 
+ 
+ GET https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api/resume/get-all-skills?params%5Bid%5D= net::ERR_FAILED
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.921Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.922Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.955Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:49.956Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:50 
+ null
+resume-service-C00OAlHA.js:50 
+ null
+entry.client-D0dWLKsz.js:124 
+ NodeApiError: Network error. Please check your connection and try again.
+    at resume-service-C00OAlHA.js:50:49303
+    at async Be.request (index-CW8bdCKN.js:103:1989)
+    at async VP.getSkillsImplementation (resume-service-C00OAlHA.js:50:50489)
+    at async ll.fetchData (resume-service-C00OAlHA.js:50:46239)
+    at async useSkillsResource-CoL9Sl4U.js:1:451
+
+
+The above error occurred in the <re> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, v.
+resume-service-C00OAlHA.js:14 ℹ️ Telemetry disabled - no configuration
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:50.009Z] ClientErrorHandler: Initialized global error handlers 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:50.012Z] ClientErrorHandler: Cleaned up global error handlers 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:50.014Z] ClientErrorHandler: Initialized global error handlers 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:50.022Z] Consolidated logger service initialized (telemetry disabled) 
+resume-service-C00OAlHA.js:14 ✅ [2025-12-23T04:59:50.022Z] ✅ Logger service initialized successfully 
+{environment: 'development', enabled: true, telemetryEnabled: 'true', attempt: '1'}
+resume-service-C00OAlHA.js:14 ✅ [2025-12-23T04:59:50.022Z] ✅ Logger service initialized successfully 
+{environment: 'development', enabled: true, telemetryEnabled: 'true', attempt: '1'}
+portfolioFunctionsClient-Bd5ybZ_A.js:1 [portfolioFunctionsClient] ← 200 /api/exams
+resume-service-C00OAlHA.js:14 ✅ [2025-12-23T04:59:50.041Z] getAllExams completed successfully 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:50.044Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:50.045Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:14 ✅ [2025-12-23T04:59:50.091Z] Performance: ApplicationRoot.InitialPageLoad (461ms, success) ✅ 
+{fetchStart: '3.200000047683716', domContentLoaded: '329.5', loadComplete: '461.2000000476837'}
+resume-service-C00OAlHA.js:14 ✅ [2025-12-23T04:59:50.092Z] ✅ Logger service initialized successfully 
+{environment: 'development', enabled: true, telemetryEnabled: 'true', attempt: '1'}
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:50.100Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:14 ℹ️ [2025-12-23T04:59:50.101Z] 🏗️ Rendering Layout component 
+resume-service-C00OAlHA.js:50 
+ null
+resume-service-C00OAlHA.js:50 
+ null
