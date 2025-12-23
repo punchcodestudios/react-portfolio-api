@@ -81,6 +81,9 @@ app.use(
       "http://localhost:3000",
       "http://localhost:5173", // Vite dev server
       "https://punchcodestudios.com",
+      "https://www.punchcodestudios.com",
+      "http://punchcodestudios.com",
+      "http://www.punchcodestudios.com",
     ],
     credentials: false, // Set to true only if you need cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
