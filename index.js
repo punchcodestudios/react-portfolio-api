@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 // -- END Rate Limiting
 
 console.log("before cors check isDev: ", isDev);
-// if (isDev) {
+
 app.use(
   cors({
     origin: [
@@ -84,6 +84,11 @@ app.use(
       "https://www.punchcodestudios.com",
       "http://punchcodestudios.com",
       "http://www.punchcodestudios.com",
+      "https://punchcodestudio.com",
+      "https://www.punchcodestudio.com",
+      "http://punchcodestudio.com",
+      "http://www.punchcodestudio.com",
+      "https://pcs-portfolio-webapp.azurewebsites.net",
     ],
     credentials: false, // Set to true only if you need cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -95,7 +100,6 @@ app.use(
     ],
   })
 );
-// }
 
 // console.log("db: ", process.env.MONGO_DB_CONNECTION);
 require("./startup/logging");
