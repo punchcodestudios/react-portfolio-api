@@ -5,12 +5,7 @@ const mongoose = require("mongoose");
 
 const getAllSkills = errorHandler(async (req, res, next) => {
   try {
-    const allSkills = await Skill.find().populate({
-      path: "skill_types",
-      select: "refid name description",
-      model: "SkillType",
-      foreignField: "refid",
-    });
+    const allSkills = await Skill.find();
     req.data = allSkills;
     // console.log("all skills: ", allSkills);
     return next();
@@ -54,6 +49,9 @@ const addSkills = errorHandler(async (req, res, next) => {
           refid: item.refid,
           description: item.description,
           slug: item.slug,
+          level: item.level,
+          category: item.category,
+          companies: item.companies,
           image_url: item.image_url,
           skill_types: item.skill_types,
         });
@@ -81,8 +79,12 @@ const updateSkill = errorHandler(async (req, res, next) => {
       req.params.id,
       {
         name: req.body.name,
+        refid: req.body.refid,
         description: req.body.description,
         slug: req.body.slug,
+        level: req.body.level,
+        category: req.body.category,
+        companies: req.body.companies,
         image_url: req.body.image_url,
         skill_types: req.body.skill_types,
       },
@@ -102,14 +104,45 @@ const updateSkill = errorHandler(async (req, res, next) => {
 });
 
 const deleteSkill = errorHandler(async (req, res, next) => {
-  return next();
+  // return next();
   try {
-    const skill = await Skill.findByIdAndRemove(req.params.id);
-    if (!skill)
+    // Handle both single ID (via params) and array of IDs (via body)
+    let idsToDelete = [];
+
+    if (req.params.id) {
+      // Single delete via URL parameter
+      idsToDelete = [req.params.id];
+    } else if (req.body && Array.isArray(req.body)) {
+      // Bulk delete via array in body
+      idsToDelete = req.body.map((item) => item._id || item.id || item);
+    } else if (req.body && req.body.ids && Array.isArray(req.body.ids)) {
+      // Bulk delete via ids array in body
+      idsToDelete = req.body.ids;
+    } else {
+      return next(createError(400, "No skill ID(s) provided for deletion."));
+    }
+
+    // Validate IDs
+    const validIds = idsToDelete.filter((id) =>
+      mongoose.Types.ObjectId.isValid(id)
+    );
+    if (validIds.length === 0) {
+      return next(createError(400, "No valid skill IDs provided."));
+    }
+
+    // Delete skills
+    const result = await Skill.deleteMany({ _id: { $in: validIds } });
+
+    if (result.deletedCount === 0) {
       return next(
-        createError(404, "The skill with the given ID was not found.")
+        createError(404, "No skills with the given ID(s) were found.")
       );
-    req.data = [];
+    }
+
+    req.data = {
+      deletedCount: result.deletedCount,
+      message: `Successfully deleted ${result.deletedCount} skill(s).`,
+    };
     return next();
   } catch (error) {
     return next(error);
@@ -154,11 +187,27 @@ const seedSkills = errorHandler(async (req, res, next) => {
   return next(createError(400, "unexpected end of method."));
 });
 
+const deleteAllSkills = errorHandler(async (req, res, next) => {
+  // return next();
+  try {
+    const result = await Skill.deleteMany({});
+
+    req.data = {
+      deletedCount: result.deletedCount,
+      message: `Successfully deleted all ${result.deletedCount} skill(s) from the database.`,
+    };
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = {
   getAllSkills,
   getSkillById,
   getSkillsBySlug,
   deleteSkill,
+  deleteAllSkills,
   addSkills,
   updateSkill,
   seedSkills,

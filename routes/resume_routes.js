@@ -36,18 +36,27 @@ router.post(
   responseController.sendSuccessResponse
 );
 router.delete(
-  "/delete-skill/{id}",
+  "/delete-skill/:id",
   skillController.deleteSkill,
   responseController.sendSuccessResponse
 );
-
+router.delete(
+  "/delete-skills",
+  skillController.deleteAllSkills,
+  responseController.sendSuccessResponse
+);
+router.delete(
+  "/delete-all-skills",
+  skillController.deleteAllSkills,
+  responseController.sendSuccessResponse
+);
 router.get(
   "/get-all-experience",
   experienceController.getAllExperience,
   responseController.sendSuccessResponse
 );
 router.get(
-  "/get-experience/{id}",
+  "/get-experience/:id",
   experienceController.getExperienceById,
   responseController.sendSuccessResponse
 );
@@ -62,7 +71,7 @@ router.post(
   responseController.sendSuccessResponse
 );
 router.delete(
-  "/delete-experience/{id}",
+  "/delete-experience/:id",
   experienceController.deleteExperience,
   responseController.sendSuccessResponse
 );
