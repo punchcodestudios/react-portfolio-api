@@ -37,10 +37,10 @@ The app uses a `startup/` folder to isolate concerns (logging, routes, DB, prod 
 
 ## Cons
 
-- **Error handler always returns HTTP 200** — `catchError.js` sends status `200` even for errors. This breaks REST conventions, makes client-side `catch` blocks unreachable in standard `fetch`/`axios` usage, and prevents standard monitoring tools from detecting failures.
+- ~~**Error handler always returns HTTP 200**~~ — ✅ **Fixed (May 8, 2026).** `catchError.js` now resolves the status code from `err.status || err.statusCode || 500` and returns it as the HTTP response status. A unit test suite (`__tests__/catchError.test.js`) covering 6 cases was added to verify the behavior.
 - **Outdated Joi API** — Models use `Joi.validate()` which was removed in Joi v16+. This will silently fail or throw at runtime depending on the installed version.
 - **Broken rate limit logic** — In `index.js`, `path.includes[("signup", "login")]` uses bracket notation instead of a method call — so the strong rate limit never activates on those paths.
-- **No tests** — `__tests__/` is empty despite Vitest being configured. There are no unit, integration, or e2e tests for any route, controller, or model.
+- **Incomplete test coverage** — Vitest is configured and `__tests__/catchError.test.js` has been added (6 passing tests), but coverage remains limited. No integration or e2e tests exist, and the majority of routes, controllers, and models are still untested.
 - **Dead/disabled code** — Several controllers have `return next()` at the top (e.g. `addSkills`, parts of `exam.js`, `task.js`, `experience.js`), silently disabling entire features.
 - **Email host hardcoded in source** — `service/email.js` hardcodes `host: "punchcodestudios.com"`. This should be environment-configured alongside other SMTP credentials.
 - **No NoSQL injection protection** — Controllers rely solely on Joi validation. There is no sanitization against NoSQL injection operators (`$where`, `$gt`, etc.) in query parameters before values reach Mongoose.
@@ -54,14 +54,14 @@ The app uses a `startup/` folder to isolate concerns (logging, routes, DB, prod 
 
 ## Summary
 
-| Area                       | Rating     | Note                                 |
-| -------------------------- | ---------- | ------------------------------------ |
-| Project structure          | Good       | Clean folder layout                  |
-| Auth security              | Good       | Dual-token, signed cookies, bcrypt   |
-| Error handling             | Poor       | Always HTTP 200, broken semantics    |
-| Input validation           | Moderate   | Joi present but outdated API         |
-| Testing                    | None       | Empty test directory                 |
-| Dead code                  | Poor       | Multiple silently disabled features  |
-| Service layer              | Incomplete | Email service is a stub              |
-| Rate limiting              | Broken     | Logic bug prevents intended behavior |
-| NoSQL injection protection | Missing    | No query sanitization                |
+| Area                       | Rating     | Note                                       |
+| -------------------------- | ---------- | ------------------------------------------ |
+| Project structure          | Good       | Clean folder layout                        |
+| Auth security              | Good       | Dual-token, signed cookies, bcrypt         |
+| Error handling             | Good       | Fixed — correct HTTP status codes returned |
+| Input validation           | Moderate   | Joi present but outdated API               |
+| Testing                    | Partial    | catchError covered; most code untested     |
+| Dead code                  | Poor       | Multiple silently disabled features        |
+| Service layer              | Incomplete | Email service is a stub                    |
+| Rate limiting              | Broken     | Logic bug prevents intended behavior       |
+| NoSQL injection protection | Missing    | No query sanitization                      |

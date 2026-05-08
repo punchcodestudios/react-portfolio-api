@@ -9,7 +9,6 @@ const createError = require("http-errors");
 // Temporary middleware for testing error handling
 // const temp500 = (req, res, next) =>
 //   next(createError(500, "Internal Server Error"));
-
 // const temp404 = (req, res, next) => next(createError(404, "Not Found"));
 
 router.get(
