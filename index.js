@@ -14,6 +14,8 @@ const express = require("express");
 const app = express();
 
 app.use(express.json({ type: "application/json" }));
+const mongoSanitize = require("express-mongo-sanitize");
+app.use(mongoSanitize());
 const { PORT, NODE_ENV } = process.env;
 const isDev = NODE_ENV === "local";
 
@@ -98,7 +100,7 @@ app.use(
       "Accept",
       "x-correlation-id",
     ],
-  })
+  }),
 );
 
 // console.log("db: ", process.env.MONGO_DB_CONNECTION);
