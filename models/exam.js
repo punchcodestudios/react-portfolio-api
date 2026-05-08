@@ -44,14 +44,14 @@ const LearningPathEvaluationItem = mongoose.model(
 );
 
 function validateExam(exam) {
-  const schema = {
+  const schema = Joi.object({
     learning_path_id: Joi.string().max(50).required(),
     learning_path_evaluation_items: Joi.array()
       .items(learningPathEvaluationItemsSchema)
       .required(),
-  };
+  });
 
-  return Joi.validate(exam, schema);
+  return schema.validate(exam);
 }
 
 exports.Exam = Exam;

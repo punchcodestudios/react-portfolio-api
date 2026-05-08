@@ -26,54 +26,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 const cors = require("cors");
 
 console.log("before rate limiting");
-// todo parse this out to its own middleware and return standard error object to UI
-// -- BEGIN Rate Limiting
-const { rateLimit } = require("express-rate-limit");
-const maxMultiple = 1; // todo: set this for environment variable :: maxMultiple = process.env === 'test' ? 1000 : 1
-const limiterBase = {
-  windowMS: 60 * 1000,
-  max: 10000 * maxMultiple,
-  standardHeaders: true,
-  legacyHeaders: false,
-  trustProxy: true,
-  handler: (req, res, next, options) => {
-    res.status(400).send({
-      content: {
-        target: [],
-        meta: {},
-        error: { status: 429, message: "Too many requests" },
-      },
-    });
-  },
-};
-
-const strongestRateLimit = rateLimit({
-  ...limiterBase,
-  max: 10 * maxMultiple,
-});
-
-const strongRateLimit = rateLimit({
-  ...limiterBase,
-  max: 100 * maxMultiple,
-});
-
-const generalRateLimit = rateLimit(limiterBase);
-
-app.use((req, res, next) => {
-  const strongPaths = ["skills"];
-  if (
-    req.method !== "GET" &&
-    req.method !== "HEAD" &&
-    req.method !== "OPTION"
-  ) {
-    if (strongPaths.some((path) => path.includes[("signup", "login")])) {
-      return strongestRateLimit(req, res, next);
-    }
-    return strongRateLimit(req, res, next);
-  }
-  return generalRateLimit(req, res, next);
-});
-// -- END Rate Limiting
+const rateLimitMiddleware = require("./middleware/rateLimit");
+app.use(rateLimitMiddleware);
 
 console.log("before cors check isDev: ", isDev);
 

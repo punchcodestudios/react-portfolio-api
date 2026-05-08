@@ -4,16 +4,10 @@ const router = express.Router();
 const skillController = require("../controllers/skill");
 const experienceController = require("../controllers/experience");
 const responseController = require("../controllers/response");
-const createError = require("http-errors");
-
-// Temporary middleware for testing error handling
-// const temp500 = (req, res, next) =>
-//   next(createError(500, "Internal Server Error"));
-// const temp404 = (req, res, next) => next(createError(404, "Not Found"));
+const { isAuthenticated } = require("../controllers/auth");
 
 router.get(
   "/get-all-skills",
-  // temp500,
   skillController.getAllSkills,
   responseController.sendSuccessResponse,
 );
@@ -29,31 +23,37 @@ router.get(
 );
 router.post(
   "/add-skill",
+  isAuthenticated,
   skillController.addSkills,
   responseController.sendSuccessResponse,
 );
 router.post(
   "/update-skill",
+  isAuthenticated,
   skillController.updateSkill,
   responseController.sendSuccessResponse,
 );
 router.post(
   "/seed-skills",
+  isAuthenticated,
   skillController.seedSkills,
   responseController.sendSuccessResponse,
 );
 router.delete(
   "/delete-skill/:id",
+  isAuthenticated,
   skillController.deleteSkill,
   responseController.sendSuccessResponse,
 );
 router.delete(
   "/delete-skills",
+  isAuthenticated,
   skillController.deleteAllSkills,
   responseController.sendSuccessResponse,
 );
 router.delete(
   "/delete-all-skills",
+  isAuthenticated,
   skillController.deleteAllSkills,
   responseController.sendSuccessResponse,
 );
@@ -69,21 +69,25 @@ router.get(
 );
 router.post(
   "/add-experience",
+  isAuthenticated,
   experienceController.addExperience,
   responseController.sendSuccessResponse,
 );
 router.post(
   "/update-experience",
+  isAuthenticated,
   experienceController.updateExperience,
   responseController.sendSuccessResponse,
 );
 router.delete(
   "/delete-experience/:id",
+  isAuthenticated,
   experienceController.deleteExperience,
   responseController.sendSuccessResponse,
 );
 router.post(
   "/seed-experience",
+  isAuthenticated,
   experienceController.seedExperience,
   responseController.sendSuccessResponse,
 );

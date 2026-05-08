@@ -2,12 +2,17 @@ const createError = require("http-errors");
 const { Skill, validate } = require("../models/skill");
 const errorHandler = require("../middleware/handleError.js");
 const mongoose = require("mongoose");
+const { parsePagination, buildPaginationMeta } = require("../utils/pagination");
 
 const getAllSkills = errorHandler(async (req, res, next) => {
   try {
-    const allSkills = await Skill.find();
+    const { page, limit, skip } = parsePagination(req.query);
+    const [allSkills, totalCount] = await Promise.all([
+      Skill.find().skip(skip).limit(limit),
+      Skill.countDocuments(),
+    ]);
     req.data = allSkills;
-    // console.log("all skills: ", allSkills);
+    req.meta = buildPaginationMeta({ page, limit, totalCount });
     return next();
   } catch (error) {
     return next(error);
@@ -26,8 +31,6 @@ const getSkillsBySlug = errorHandler(async (req, res, next) => {
 });
 
 const addSkills = errorHandler(async (req, res, next) => {
-  return next();
-  console.log("addSkills: ", [...req.body]);
   try {
     const array = [...req.body];
     array.forEach(async (item) => {
@@ -39,8 +42,8 @@ const addSkills = errorHandler(async (req, res, next) => {
         return next(
           createError(
             400,
-            `An item named: ${item.name} already exists in our system.`
-          )
+            `An item named: ${item.name} already exists in our system.`,
+          ),
         );
 
       try {
@@ -70,7 +73,6 @@ const addSkills = errorHandler(async (req, res, next) => {
 });
 
 const updateSkill = errorHandler(async (req, res, next) => {
-  return next();
   const { error } = validate(req.body);
   if (error) return next(createError(400, error.details[0].message));
 
@@ -88,12 +90,12 @@ const updateSkill = errorHandler(async (req, res, next) => {
         image_url: req.body.image_url,
         skill_types: req.body.skill_types,
       },
-      { new: true }
+      { new: true },
     );
 
     if (!skill)
       return next(
-        createError(401, "The skill with the given ID was not found.")
+        createError(401, "The skill with the given ID was not found."),
       );
 
     req.data = [skill];
@@ -124,7 +126,7 @@ const deleteSkill = errorHandler(async (req, res, next) => {
 
     // Validate IDs
     const validIds = idsToDelete.filter((id) =>
-      mongoose.Types.ObjectId.isValid(id)
+      mongoose.Types.ObjectId.isValid(id),
     );
     if (validIds.length === 0) {
       return next(createError(400, "No valid skill IDs provided."));
@@ -135,7 +137,7 @@ const deleteSkill = errorHandler(async (req, res, next) => {
 
     if (result.deletedCount === 0) {
       return next(
-        createError(404, "No skills with the given ID(s) were found.")
+        createError(404, "No skills with the given ID(s) were found."),
       );
     }
 
@@ -154,7 +156,7 @@ const getSkillById = errorHandler(async (req, res, next) => {
     const skill = await Skill.findById(req.params.id);
     if (!skill)
       return next(
-        createError(404, "The skill with the given ID was not found.")
+        createError(404, "The skill with the given ID was not found."),
       );
   } catch (error) {
     return next(error);

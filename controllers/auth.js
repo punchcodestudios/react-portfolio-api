@@ -97,12 +97,12 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
     }
 
     const { userId } = decodedToken;
-    const user = User.find({ _id: userId });
+    const user = await User.findById(userId).select("-password");
     if (!user) {
       return next(createError(401, `Invalid user`));
     }
 
-    // req.userId == user.id;
+    req.user = user;
     return next();
   } catch (error) {
     return next(error);

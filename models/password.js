@@ -18,12 +18,12 @@ const passwordSchema = new mongoose.Schema({
 const Password = mongoose.model("Password", passwordSchema, "passwords");
 
 function passwordValidate(password) {
-  const schema = {
+  const schema = Joi.object({
     userId: Joi.unique().required(),
     password: Joi.string().min(5).required(),
-  };
+  });
 
-  return Joi.validate(password, schema);
+  return schema.validate(password);
 }
 
 exports.Password = Password;

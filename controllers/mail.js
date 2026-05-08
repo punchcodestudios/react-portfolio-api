@@ -1,9 +1,7 @@
-const ejs = require("ejs");
 const path = require("path");
 const errorHandler = require("../middleware/handleError.js");
 const createError = require("http-errors");
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.PUNCHCODESTUDIOS_SENDGRID_API_KEY);
+const sendgridService = require("../service/sendgrid");
 
 const sendContact = errorHandler(async (req, res, next) => {
   console.log("email sending: ", req.body);
@@ -23,20 +21,17 @@ const sendContact = errorHandler(async (req, res, next) => {
       </ul>
       <p>${req.body.params.message}</p>`,
     };
-    // SendGrid subscription has been disabled temporarily
-    // sgMail
-    //   .send(msg)
-    //   .then(() => {
-    //     console.log("mail.js: send message");
-    //     return next();
-    //   })
-    //   .catch((error) => {
-    //     return next(createError(500, `Error sending email: ${error}`));
-    //   });
+    sendgridService
+      .send(msg)
+      .then(() => {
+        return next();
+      })
+      .catch((error) => {
+        return next(createError(500, `Error sending email: ${error}`));
+      });
   } catch (error) {
     return next(createError(418, `Error generating email template: ${error}`));
   }
-  return next();
 });
 
 const previewContact = async (req, res, next) => {
@@ -68,7 +63,7 @@ const sendRegistrationConfirmation = errorHandler(async (req, res, next) => {
       <p>If you did not request this email, please visit the site at: <a href='https://www.punchcodestudios.com/deactivate?uname=${user.username}&code=${user.confirmCode}'>https://www.punchcodestudios.com/deactivate</a> to report this activity and to deactivate your account.</p>
       <p>You can find a link to our privacy policy and terms of use on our site or by using the links below</p>`,
     };
-    sgMail
+    sendgridService
       .send(msg)
       .then(() => {
         req.data = [user];
@@ -80,7 +75,6 @@ const sendRegistrationConfirmation = errorHandler(async (req, res, next) => {
   } catch (error) {
     return next(createError(418, `Error generating email template: ${error}`));
   }
-  return next();
 });
 
 const sendPasswordReset = errorHandler(async (req, res, next) => {
@@ -95,7 +89,7 @@ const sendPasswordReset = errorHandler(async (req, res, next) => {
       <p>Please enter this code into the application to reset your password.</p>
       <p>Thank you for your interest in punchcodestudios.com.</p>`,
     };
-    sgMail
+    sendgridService
       .send(msg)
       .then(() => {
         return next();
@@ -113,15 +107,4 @@ module.exports = {
   previewContact,
   sendRegistrationConfirmation,
   sendPasswordReset,
-};
-
-const send = async (req, res, next, data) => {
-  sgMail
-    .send(msg)
-    .then(() => {
-      return next();
-    })
-    .catch((error) => {
-      return next(createError(500, `Error sending email: ${error}`));
-    });
 };

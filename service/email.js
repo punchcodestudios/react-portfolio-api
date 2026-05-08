@@ -1,45 +1,50 @@
 //https://dev.to/scofieldidehen/master-nodemailer-the-ultimate-guide-to-sending-emails-from-nodejs-24a3
 //https://nodemailer.com/usage/
-//https://www.geeksforgeeks.org/server-side-rendering-using-express-js-and-ejs-template-engine/
 
 const nodemailer = require("nodemailer");
-const sendMail = async (to, from, subject, text, html) => {
-  try {
-    let transporter = nodemailer.createTransport({
-      host: "punchcodestudios.com",
-      port: 425,
-      secure: true,
-      auth: {
-        user: "admin@punchcodestudios.com",
-        password: "Dr@g0n8473",
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
-    const mailOptions = {
-      to: !to ? process.env.DEFAULT_EMAIL_RECIP : to,
-      from: from,
-      subject: subject,
-      text: text,
-      html: html,
-    };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        // console.log("error: ", error);
-        throw new Error("email failed to send");
-      }
-    });
-    // const response = await transporter.sendMail(mailOptions);
-    // console.log("service/email.js:28 - ", response);
-    // return response;
-  } catch (error) {
-    console.error("service/email.js:36 -- ", error);
-    throw Error(error);
+const { EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS, EMAIL_FROM } =
+  process.env;
+
+/**
+ * Sends an email via Nodemailer using SMTP credentials from environment variables.
+ * @param {string} to
+ * @param {string} subject
+ * @param {string} text
+ * @param {string} html
+ * @returns {Promise}
+ */
+const sendMail = async (to, subject, text, html) => {
+  if (!EMAIL_HOST || !EMAIL_USER || !EMAIL_PASS) {
+    throw new Error(
+      "Email service is not configured. Set EMAIL_HOST, EMAIL_USER, and EMAIL_PASS."
+    );
   }
+
+  const port = parseInt(EMAIL_PORT, 10) || 587;
+  const transporter = nodemailer.createTransport({
+    host: EMAIL_HOST,
+    port,
+    secure: port === 465,
+    auth: {
+      user: EMAIL_USER,
+      pass: EMAIL_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
+
+  const mailOptions = {
+    to: to || process.env.DEFAULT_EMAIL_RECIP,
+    from: EMAIL_FROM || EMAIL_USER,
+    subject,
+    text,
+    html,
+  };
+
+  return transporter.sendMail(mailOptions);
 };
 
-module.exports = {
-  sendMail,
-};
+module.exports = { sendMail };
+

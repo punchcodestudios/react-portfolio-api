@@ -19,14 +19,14 @@ const webTokenSchema = new mongoose.Schema({
 const WebToken = mongoose.model("WebToken", webTokenSchema, "webtokens");
 
 function validateToken(token) {
-  const schema = {
+  const schema = Joi.object({
     name: Joi.string(),
     userId: Joi.string(),
     token: Joi.string(),
     expiresOn: Joi.string(),
-  };
+  });
 
-  return Joi.validate(token, schema);
+  return schema.validate(token);
 }
 
 exports.WebToken = WebToken;

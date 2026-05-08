@@ -51,7 +51,7 @@ const Experience = mongoose.model(
 );
 
 function validateExperience(experience) {
-  const schema = {
+  const schema = Joi.object({
     company_name: Joi.string().max(50).required(),
     refid: Joi.string().required(),
     start_date: Joi.string().allow(null, ""),
@@ -77,9 +77,9 @@ function validateExperience(experience) {
     // }),
     experience_line_items: Joi.array().required(),
     slug: Joi.string().min(5).required(),
-  };
+  });
 
-  return Joi.validate(experience, schema);
+  return schema.validate(experience);
 }
 
 exports.Experience = Experience;

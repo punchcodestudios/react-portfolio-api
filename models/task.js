@@ -42,15 +42,15 @@ const taskSchema = new mongoose.Schema({
 const Task = mongoose.model("Task", taskSchema, "tasks");
 
 function validateTask(task) {
-  const schema = {
+  const schema = Joi.object({
     name: Joi.string().max(50).required(),
     description: Joi.string().min(5).max(250).required(),
     dueDate: Joi.date().required(),
     taskGroup: Joi.string().required(),
     status: Joi.string().required(),
-  };
+  });
 
-  return Joi.validate(task, schema);
+  return schema.validate(task);
 }
 
 exports.Task = Task;

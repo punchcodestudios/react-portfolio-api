@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const mailController = require("../controllers/mail");
-const mailMiddleware = require("../middleware/mail");
 const responseController = require("../controllers/response");
 
 router.post(

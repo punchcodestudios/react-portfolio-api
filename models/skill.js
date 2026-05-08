@@ -47,7 +47,7 @@ const SkillSchema = new mongoose.Schema({
 const Skill = mongoose.model("Skill", SkillSchema, "skills");
 
 function validateSkill(skill) {
-  const schema = {
+  const schema = Joi.object({
     name: Joi.string().max(50).required(),
     refid: Joi.string().required(),
     description: Joi.string().min(5).max(500).required(),
@@ -56,9 +56,9 @@ function validateSkill(skill) {
     category: Joi.string().max(100).optional(),
     companies: Joi.array().items(Joi.string()).optional(),
     skill_types: Joi.array().items(),
-  };
+  });
 
-  return Joi.validate(skill, schema);
+  return schema.validate(skill);
 }
 
 exports.Skill = Skill;
