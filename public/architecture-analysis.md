@@ -1,0 +1,67 @@
+# Architecture Analysis — react-portfolio-api
+
+**Date:** May 8, 2026
+
+---
+
+## Overview
+
+This is a Node.js/Express REST API using a layered architecture: Routes → Controllers → Models (Mongoose/MongoDB), with a centralized startup bootstrap pattern and JWT-based authentication.
+
+---
+
+## Structural Patterns
+
+### Route / Controller Separation
+
+Routes are thin (just paths + middleware chains) and logic lives in controllers. Controllers use a **pipeline pattern** where each middleware function sets `req.data` / `req.meta`, and a final `sendSuccessResponse` controller formats and sends the response.
+
+### Startup Bootstrapping
+
+The app uses a `startup/` folder to isolate concerns (logging, routes, DB, prod hardening) from `index.js`. Each module is `require()`d in sequence.
+
+---
+
+## Pros
+
+- **Separation of concerns** — Routes, controllers, models, services, and utilities are cleanly divided into separate folders with single responsibilities.
+- **Modular startup** — The `startup/` pattern keeps `index.js` clean and makes each initialization step independently testable/replaceable.
+- **Refresh token pattern** — The dual-token (access + refresh) auth system with HTTP-only signed cookies persisted in MongoDB is a solid, industry-standard security approach.
+- **Separate password storage** — Storing password hashes in their own collection (`passwords`) decouples credentials from user records and reduces accidental exposure.
+- **Standardized response shape** — `sendSuccessResponse` / `catchError` enforce a consistent envelope (`{ content: { target, meta, error } }`), making frontend integration predictable.
+- **Environment-based config** — Secrets (JWT keys, DB connection, cookie secret) are loaded from environment variables, not hardcoded.
+- **Centralized error middleware** — `catchError.js` as a terminal middleware registered after all routes ensures unhandled errors are caught in one place.
+- **Email confirmation flow** — Sign-up requires email verification before account activation, protecting against fake accounts.
+
+---
+
+## Cons
+
+- **Error handler always returns HTTP 200** — `catchError.js` sends status `200` even for errors. This breaks REST conventions, makes client-side `catch` blocks unreachable in standard `fetch`/`axios` usage, and prevents standard monitoring tools from detecting failures.
+- **Outdated Joi API** — Models use `Joi.validate()` which was removed in Joi v16+. This will silently fail or throw at runtime depending on the installed version.
+- **Broken rate limit logic** — In `index.js`, `path.includes[("signup", "login")]` uses bracket notation instead of a method call — so the strong rate limit never activates on those paths.
+- **No tests** — `__tests__/` is empty despite Vitest being configured. There are no unit, integration, or e2e tests for any route, controller, or model.
+- **Dead/disabled code** — Several controllers have `return next()` at the top (e.g. `addSkills`, parts of `exam.js`, `task.js`, `experience.js`), silently disabling entire features.
+- **Email host hardcoded in source** — `service/email.js` hardcodes `host: "punchcodestudios.com"`. This should be environment-configured alongside other SMTP credentials.
+- **No NoSQL injection protection** — Controllers rely solely on Joi validation. There is no sanitization against NoSQL injection operators (`$where`, `$gt`, etc.) in query parameters before values reach Mongoose.
+- **Incomplete service layer** — Email sending logic lives in `controllers/mail.js` rather than `service/`. The `service/email.js` and `service/sendgrid.js` files are unused stubs.
+- **Duplicate rate limit systems** — Rate limiting is applied in `index.js` using one config, while `middleware/rateLimit.js` defines a separate unused config — two parallel and conflicting systems.
+- **No pagination** — Collection queries (skills, tasks, experiences) return all documents with no limit or cursor-based pagination, which is a scalability problem as data grows.
+- **SPA catch-all conflicts with API routes** — `app.get("*", ...)` at the bottom of `index.js` serves `index.html` for any unmatched route, so a mistyped API route silently returns HTML instead of a 404.
+- **No request-level logging** — Winston is configured but there is no morgan or equivalent integration, so there is no per-request access log.
+
+---
+
+## Summary
+
+| Area                       | Rating     | Note                                 |
+| -------------------------- | ---------- | ------------------------------------ |
+| Project structure          | Good       | Clean folder layout                  |
+| Auth security              | Good       | Dual-token, signed cookies, bcrypt   |
+| Error handling             | Poor       | Always HTTP 200, broken semantics    |
+| Input validation           | Moderate   | Joi present but outdated API         |
+| Testing                    | None       | Empty test directory                 |
+| Dead code                  | Poor       | Multiple silently disabled features  |
+| Service layer              | Incomplete | Email service is a stub              |
+| Rate limiting              | Broken     | Logic bug prevents intended behavior |
+| NoSQL injection protection | Missing    | No query sanitization                |
