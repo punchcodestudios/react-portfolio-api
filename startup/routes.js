@@ -21,6 +21,12 @@ module.exports = function (app) {
   app.use("/api/tasks", tasks);
   app.use("/api/resume", resume);
   app.use("/api/exam", exam);
+  // 404 handler for unmatched API routes
+  app.use("/api", (req, res) => {
+    res
+      .status(404)
+      .json({ error: { status: 404, message: "API route not found" } });
+  });
   // global error handling
   app.use(error);
 };

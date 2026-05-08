@@ -43,7 +43,7 @@ The app uses a `startup/` folder to isolate concerns (logging, routes, DB, prod 
 - **Incomplete test coverage** — Vitest is configured and `__tests__/catchError.test.js` has been added (6 passing tests), but coverage remains limited. No integration or e2e tests exist, and the majority of routes, controllers, and models are still untested.
 - **Dead/disabled code** — Several controllers have `return next()` at the top (e.g. `addSkills`, parts of `exam.js`, `task.js`, `experience.js`), silently disabling entire features.
 - **Email host hardcoded in source** — `service/email.js` hardcodes `host: "punchcodestudios.com"`. This should be environment-configured alongside other SMTP credentials.
-- **No NoSQL injection protection** — Controllers rely solely on Joi validation. There is no sanitization against NoSQL injection operators (`$where`, `$gt`, etc.) in query parameters before values reach Mongoose.
+- ~~**No NoSQL injection protection**~~ — ✅ **Fixed (May 8, 2026).** `express-mongo-sanitize` is now registered globally in `index.js` immediately after `express.json()`, stripping any key beginning with `$` or containing `.` from `req.body`, `req.query`, and `req.params` before reaching any route handler. A test suite (`__tests__/mongoSanitize.test.js`, 6 passing tests) verifies the behavior.
 - **Incomplete service layer** — Email sending logic lives in `controllers/mail.js` rather than `service/`. The `service/email.js` and `service/sendgrid.js` files are unused stubs.
 - **Duplicate rate limit systems** — Rate limiting is applied in `index.js` using one config, while `middleware/rateLimit.js` defines a separate unused config — two parallel and conflicting systems.
 - **No pagination** — Collection queries (skills, tasks, experiences) return all documents with no limit or cursor-based pagination, which is a scalability problem as data grows.
@@ -54,14 +54,14 @@ The app uses a `startup/` folder to isolate concerns (logging, routes, DB, prod 
 
 ## Summary
 
-| Area                       | Rating     | Note                                       |
-| -------------------------- | ---------- | ------------------------------------------ |
-| Project structure          | Good       | Clean folder layout                        |
-| Auth security              | Good       | Dual-token, signed cookies, bcrypt         |
-| Error handling             | Good       | Fixed — correct HTTP status codes returned |
-| Input validation           | Moderate   | Joi present but outdated API               |
-| Testing                    | Partial    | catchError covered; most code untested     |
-| Dead code                  | Poor       | Multiple silently disabled features        |
-| Service layer              | Incomplete | Email service is a stub                    |
-| Rate limiting              | Broken     | Logic bug prevents intended behavior       |
-| NoSQL injection protection | Missing    | No query sanitization                      |
+| Area                       | Rating     | Note                                            |
+| -------------------------- | ---------- | ----------------------------------------------- |
+| Project structure          | Good       | Clean folder layout                             |
+| Auth security              | Good       | Dual-token, signed cookies, bcrypt              |
+| Error handling             | Good       | Fixed — correct HTTP status codes returned      |
+| Input validation           | Moderate   | Joi present but outdated API                    |
+| Testing                    | Partial    | catchError covered; most code untested          |
+| Dead code                  | Poor       | Multiple silently disabled features             |
+| Service layer              | Incomplete | Email service is a stub                         |
+| Rate limiting              | Broken     | Logic bug prevents intended behavior            |
+| NoSQL injection protection | Good       | Fixed — express-mongo-sanitize applied globally |
