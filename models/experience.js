@@ -47,7 +47,7 @@ const Experience = mongoose.model(
       required: true,
       minlength: 5,
     },
-  })
+  }),
 );
 
 function validateExperience(experience) {

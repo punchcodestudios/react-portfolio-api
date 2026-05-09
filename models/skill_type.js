@@ -23,7 +23,7 @@ const SkillType = mongoose.model(
       required: true,
       minlength: 5,
     },
-  })
+  }),
 );
 
 function validateSkillType(skillType) {

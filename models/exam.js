@@ -40,7 +40,7 @@ const Exam = mongoose.model("Exam", ExamSchema, "exams");
 const LearningPathEvaluationItem = mongoose.model(
   "LearningPathEvaluationItem",
   learningPathEvaluationItemsSchema,
-  "learningPathEvaluationItems"
+  "learningPathEvaluationItems",
 );
 
 function validateExam(exam) {

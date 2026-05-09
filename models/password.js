@@ -19,7 +19,7 @@ const Password = mongoose.model("Password", passwordSchema, "passwords");
 
 function passwordValidate(password) {
   const schema = Joi.object({
-    userId: Joi.unique().required(),
+    userId: Joi.string().required(),
     password: Joi.string().min(5).required(),
   });
 
