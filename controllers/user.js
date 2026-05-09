@@ -40,7 +40,7 @@ const signUp = errorHandler(async (req, res, next) => {
   const userNameExists = await User.findOne({ username: req.body.username });
   if (emailExists || userNameExists) {
     return next(
-      createError(422, "an account with those identifiers already exists.")
+      createError(422, "an account with those identifiers already exists."),
     );
   }
 
@@ -69,7 +69,7 @@ const createPassword = errorHandler(async (req, res, next) => {
 
   let password = new Password({
     userId: user._id,
-    password: req.body.password,
+    password: await encodePassword(req.body.password),
   });
 
   try {
@@ -143,7 +143,7 @@ const confirm = errorHandler(async (req, res, next) => {
 
   const user = await User.findOneAndUpdate(
     { username: username, confirmCode: confirmationCode },
-    { status: UserStatus.CONFIRMED, confirmCode: "" }
+    { status: UserStatus.CONFIRMED, confirmCode: "" },
   ).select(["-name", "-confirmCode"]);
 
   if (!user) {

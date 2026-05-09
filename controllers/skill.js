@@ -37,7 +37,7 @@ const addSkills = errorHandler(async (req, res, next) => {
       let { error } = validate(item);
       if (error) return next(new Error(error.details[0].message));
 
-      let duplicate = Skill.findOne({ name: item.name });
+      let duplicate = await Skill.findOne({ name: item.name });
       if (duplicate)
         return next(
           createError(
@@ -106,44 +106,20 @@ const updateSkill = errorHandler(async (req, res, next) => {
 });
 
 const deleteSkill = errorHandler(async (req, res, next) => {
-  // return next();
   try {
-    // Handle both single ID (via params) and array of IDs (via body)
-    let idsToDelete = [];
-
-    if (req.params.id) {
-      // Single delete via URL parameter
-      idsToDelete = [req.params.id];
-    } else if (req.body && Array.isArray(req.body)) {
-      // Bulk delete via array in body
-      idsToDelete = req.body.map((item) => item._id || item.id || item);
-    } else if (req.body && req.body.ids && Array.isArray(req.body.ids)) {
-      // Bulk delete via ids array in body
-      idsToDelete = req.body.ids;
-    } else {
-      return next(createError(400, "No skill ID(s) provided for deletion."));
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return next(createError(400, "No valid skill ID provided."));
     }
 
-    // Validate IDs
-    const validIds = idsToDelete.filter((id) =>
-      mongoose.Types.ObjectId.isValid(id),
-    );
-    if (validIds.length === 0) {
-      return next(createError(400, "No valid skill IDs provided."));
-    }
+    const result = await Skill.findByIdAndDelete(req.params.id);
 
-    // Delete skills
-    const result = await Skill.deleteMany({ _id: { $in: validIds } });
-
-    if (result.deletedCount === 0) {
-      return next(
-        createError(404, "No skills with the given ID(s) were found."),
-      );
+    if (!result) {
+      return next(createError(404, "No skill with the given ID was found."));
     }
 
     req.data = {
-      deletedCount: result.deletedCount,
-      message: `Successfully deleted ${result.deletedCount} skill(s).`,
+      deletedCount: 1,
+      message: `Successfully deleted skill: ${result.name}.`,
     };
     return next();
   } catch (error) {

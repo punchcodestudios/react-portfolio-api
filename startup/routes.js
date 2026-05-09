@@ -1,7 +1,6 @@
 const express = require("express");
 const winston = require("winston");
 const morgan = require("morgan");
-const skillTypes = require("../routes/skill_type_routes");
 const genres = require("../routes/genres");
 const users = require("../routes/user_routes");
 const sendMail = require("../routes/mail_routes");
@@ -30,7 +29,6 @@ module.exports = function (app) {
   app.use("/api", simulateError);
   app.use("/api/genres", genres);
   app.use("/api/auth", auth);
-  app.use("/api/skill-types", skillTypes);
   app.use("/api/user", users);
   app.use("/api/mail", sendMail);
   app.use("/api/tasks", tasks);
