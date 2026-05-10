@@ -1,16 +1,2 @@
-1: Decision Needed: Remove any reference to skill_type_routes and existing associations. 
-This is so far legacy its not worth the maintenance. Especially since it is not even used.
-If the need arises, a rewrite with the current pattern should be mimial effort.
-2: please proceed
-3: this is necessary
-4: agree with suggestion - what happes to auth-utils.js > getAccessTokenTTL() ?
 
-5: ahhh.. i am mixing concerns by equating isAuthenticated with isAdmin...
---- please validate the following statements:
-"GET" "OPTIONS" - public access 
-"PUT" "POST" - isAuthenticated
-"DELETE" - isAuthenticated isAdmin
 
-so the isAdmin value (ROLE) would be included as a property of the isAuthenticated token ??
-
-Please provide a general assessment of my understanding.
