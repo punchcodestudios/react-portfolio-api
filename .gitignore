@@ -128,6 +128,12 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# MCP server config (contains credentials)
+.vscode/mcp.json
+
+# Local prompt scratchpad files
+public/prompts/
+
 # yarn v2
 .yarn/cache
 .yarn/unplugged

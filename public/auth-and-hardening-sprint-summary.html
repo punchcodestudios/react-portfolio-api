@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sprint Summary — react-portfolio-api</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #0f1117;
+        color: #e2e8f0;
+        line-height: 1.6;
+        padding: 2rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 0.25rem;
+      }
+      .subtitle {
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-bottom: 2.5rem;
+      }
+      h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin: 2.5rem 0 1rem;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 0.5rem;
+      }
+      .card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .card-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+        margin-top: 0.15rem;
+      }
+      .badge-done {
+        background: #14532d;
+        color: #4ade80;
+      }
+      .badge-security {
+        background: #1e3a5f;
+        color: #60a5fa;
+      }
+      .badge-bug {
+        background: #4a1942;
+        color: #e879f9;
+      }
+      .badge-cleanup {
+        background: #3b2f00;
+        color: #fbbf24;
+      }
+      .badge-arch {
+        background: #1c2a1c;
+        color: #86efac;
+      }
+      .card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #f1f5f9;
+      }
+      .card-date {
+        font-size: 0.78rem;
+        color: #64748b;
+        margin-top: 0.1rem;
+      }
+      .card-body {
+        font-size: 0.88rem;
+        color: #94a3b8;
+      }
+      .card-body ul {
+        padding-left: 1.25rem;
+        margin-top: 0.4rem;
+      }
+      .card-body li {
+        margin-bottom: 0.3rem;
+      }
+      .card-body li::marker {
+        color: #475569;
+      }
+      code {
+        background: #0f172a;
+        color: #7dd3fc;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+        font-size: 0.85em;
+        font-family: "Fira Code", "Cascadia Code", monospace;
+      }
+      .files {
+        margin-top: 0.75rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .file-tag {
+        background: #0f172a;
+        color: #64748b;
+        border: 1px solid #334155;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-family: monospace;
+      }
+      .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+      }
+      .summary-table th {
+        text-align: left;
+        padding: 0.5rem 1rem;
+        color: #64748b;
+        font-weight: 600;
+        border-bottom: 1px solid #334155;
+      }
+      .summary-table td {
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid #1e293b;
+        color: #cbd5e1;
+      }
+      .summary-table tr:last-child td {
+        border-bottom: none;
+      }
+      .good {
+        color: #4ade80;
+        font-weight: 600;
+      }
+      .partial {
+        color: #fbbf24;
+        font-weight: 600;
+      }
+      footer {
+        margin-top: 3rem;
+        color: #334155;
+        font-size: 0.8rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sprint Summary — react-portfolio-api</h1>
+    <p class="subtitle">
+      Sessions: May 8–9, 2026 &nbsp;|&nbsp; 16 items addressed
+    </p>
+
+    <!-- ── SESSION 1: May 8 ───────────────────────────────────────────── -->
+    <h2>May 8, 2026 — Codebase Hardening</h2>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-bug">Bug Fix</span>
+        <div>
+          <div class="card-title">Error handler always returned HTTP 200</div>
+          <div class="card-date">fix-error-handler-http-status.md</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          <code>catchError.js</code> resolved status from
+          <code>err.status || err.statusCode || 500</code> and returned it as
+          the HTTP status code. Previously every error response sent a 200.
+        </p>
+        <div class="files">
+          <span class="file-tag">middleware/catchError.js</span>
+          <span class="file-tag">__tests__/catchError.test.js (6 tests)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-bug">Bug Fix</span>
+        <div>
+          <div class="card-title">Broken rate limit logic</div>
+          <div class="card-date">
+            fix-broken-rate-limit-logic.md &amp;
+            consolidate-rate-limit-config.md
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          Bracket-notation bug corrected, <code>windowMs</code> casing fixed,
+          handler status corrected from 400 → 429. Inline block removed from
+          <code>index.js</code> — <code>middleware/rateLimit.js</code> is now
+          the sole config. Routing logic extracted into pure
+          <code>selectTier()</code> function.
+        </p>
+        <div class="files">
+          <span class="file-tag">middleware/rateLimit.js</span>
+          <span class="file-tag">index.js</span>
+          <span class="file-tag">__tests__/rateLimit.test.js (10 tests)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-cleanup">Cleanup</span>
+        <div>
+          <div class="card-title">Dead / disabled code</div>
+          <div class="card-date">remove-dead-disabled-code.md</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          All <code>return next()</code> bypasses removed. Commented-out DB
+          logic restored in skill, task, and experience controllers. Test
+          scaffolding comments removed from <code>resume_routes.js</code>.
+        </p>
+        <div class="files">
+          <span class="file-tag">controllers/skill.js</span>
+          <span class="file-tag">controllers/task.js</span>
+          <span class="file-tag">controllers/experience.js</span>
+          <span class="file-tag">routes/resume_routes.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-arch">Architecture</span>
+        <div>
+          <div class="card-title">SPA catch-all conflicted with API routes</div>
+          <div class="card-date">fix-spa-catchall-conflicts-with-api.md</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          Dedicated <code>/api</code> 404 handler added in
+          <code>startup/routes.js</code>. SPA catch-all in
+          <code>index.js</code> now guards against <code>/api</code> paths with
+          early <code>next()</code>.
+        </p>
+        <div class="files">
+          <span class="file-tag">startup/routes.js</span>
+          <span class="file-tag">index.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-arch">Architecture</span>
+        <div>
+          <div class="card-title">No request-level logging</div>
+          <div class="card-date">add-request-level-logging.md</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          <code>morgan</code> installed and piped into Winston
+          <code>appLogger</code> at <code>info</code> level. Logs
+          <code
+            >:method :url :status :res[content-length] - :response-time ms</code
+          >
+          for <code>/api</code> routes only.
+        </p>
+        <div class="files">
+          <span class="file-tag">startup/routes.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-arch">Architecture</span>
+        <div>
+          <div class="card-title">No pagination on collection routes</div>
+          <div class="card-date">add-pagination-to-collection-routes.md</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          <code>utils/pagination.js</code> added with
+          <code>parsePagination()</code> and <code>buildPaginationMeta()</code>.
+          <code>getAllSkills</code>, <code>getAllExperience</code>,
+          <code>getTasks</code> now accept
+          <code>?page=&amp;limit=</code> (default/max 100).
+          <code>getTasks</code> sort moved from JS to MongoDB
+          <code>.sort({ dueDate: 1 })</code>.
+        </p>
+        <div class="files">
+          <span class="file-tag">utils/pagination.js</span>
+          <span class="file-tag">controllers/skill.js</span>
+          <span class="file-tag">controllers/experience.js</span>
+          <span class="file-tag">controllers/task.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-security">Security</span>
+        <div>
+          <div class="card-title">No NoSQL injection protection</div>
+          <div class="card-date">add-nosql-injection-protection.md</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          <code>express-mongo-sanitize</code> registered globally in
+          <code>index.js</code> after <code>express.json()</code>. Strips keys
+          beginning with <code>$</code> or containing <code>.</code> from
+          <code>req.body</code>, <code>req.query</code>, and
+          <code>req.params</code>.
+        </p>
+        <div class="files">
+          <span class="file-tag">index.js</span>
+          <span class="file-tag"
+            >__tests__/mongoSanitize.test.js (6 tests)</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-security">Security</span>
+        <div>
+          <div class="card-title">Email credentials hardcoded in source</div>
+          <div class="card-date">
+            move-email-host-to-env.md &amp;
+            consolidate-email-into-service-layer.md
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          Plaintext password removed from <code>service/email.js</code>. All
+          SMTP config moved to env vars. <code>service/sendgrid.js</code> and
+          <code>service/email.js</code> rewritten as proper service modules.
+          <code>controllers/mail.js</code> refactored — direct
+          <code>@sendgrid/mail</code> usage replaced with
+          <code>sendgridService</code>. <code>sendContact</code> restored.
+          Double-<code>next()</code> bug fixed in
+          <code>sendRegistrationConfirmation</code>.
+          <code>.env.example</code> created.
+        </p>
+        <div class="files">
+          <span class="file-tag">service/email.js</span>
+          <span class="file-tag">service/sendgrid.js</span>
+          <span class="file-tag">controllers/mail.js</span>
+          <span class="file-tag">routes/mail_routes.js</span>
+          <span class="file-tag">.env.example</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-bug">Bug Fix</span>
+        <div>
+          <div class="card-title">Outdated Joi validation API</div>
+          <div class="card-date">fix-outdated-joi-api.md</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          All 11 models updated: <code>const schema = &#123; &#125;</code> →
+          <code>Joi.object(&#123; &#125;)</code> and
+          <code>Joi.validate(data, schema)</code> →
+          <code>schema.validate(data)</code>. Pre-existing bug fixed in
+          <code>models/password.js</code>: <code>Joi.unique()</code> →
+          <code>Joi.string().required()</code>.
+        </p>
+        <div class="files">
+          <span class="file-tag">models/user.js</span>
+          <span class="file-tag">models/skill.js</span>
+          <span class="file-tag">models/task.js</span>
+          <span class="file-tag">models/experience.js</span>
+          <span class="file-tag">models/exam.js</span>
+          <span class="file-tag">models/password.js</span>
+          <span class="file-tag">models/webtoken.js</span>
+          <span class="file-tag">+ 4 more</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SESSION 2: May 9 ───────────────────────────────────────────── -->
+    <h2>May 9, 2026 — Authentication &amp; Authorization</h2>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-security">Security</span>
+        <div>
+          <div class="card-title">
+            Auth dormant — secrets not configured, TTL inconsistent
+          </div>
+          <div class="card-date">auth-config</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          JWT secrets and TTL values moved to env vars. TTL standardized to
+          <code>ms()</code> string format (<code>"1h"</code>, <code>"7d"</code>)
+          across <code>auth-utils.js</code> and
+          <code>controllers/auth.js</code>. Removed erroneous
+          <code>(req, res)</code> params from <code>getAccessTokenTTL()</code>.
+        </p>
+        <div class="files">
+          <span class="file-tag">utils/auth-utils.js</span>
+          <span class="file-tag">controllers/auth.js</span>
+          <span class="file-tag">.env.example</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-security">Security</span>
+        <div>
+          <div class="card-title">Logout did not invalidate sessions</div>
+          <div class="card-date">auth-refresh-token-db-check</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          Restored DB validation of refresh token in
+          <code>isAuthenticated</code>.
+          <code>WebToken.findOne(&#123; token: refreshToken &#125;)</code> now
+          runs on every authenticated request — a captured cookie is rejected
+          after logout because the token is deleted from the collection.
+        </p>
+        <div class="files">
+          <span class="file-tag">controllers/auth.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-bug">Bug Fix</span>
+        <div>
+          <div class="card-title">Passwords stored in plaintext</div>
+          <div class="card-date">controllers/user.js — createPassword</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          <code>createPassword</code> was saving
+          <code>req.body.password</code> directly to the
+          <code>passwords</code> collection. <code>encodePassword()</code> was
+          imported but not called. Fixed — password is now hashed with bcrypt
+          before save.
+        </p>
+        <div class="files">
+          <span class="file-tag">controllers/user.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-security">Security</span>
+        <div>
+          <div class="card-title">No role-based authorization (RBAC)</div>
+          <div class="card-date">auth-rbac</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          <code>middleware/admin.js</code> fixed:
+          <code>req.user.isAdmin</code> (field doesn't exist) →
+          <code>req.user?.roles?.includes("ADMIN")</code>.
+          <code>isAdmin</code> added to all DELETE routes in
+          <code>resume_routes.js</code> and to <code>/list</code> and
+          <code>/:id</code> in <code>admin_user_routes.js</code>.
+        </p>
+        <ul>
+          <li>GET — public</li>
+          <li>POST / PUT — <code>isAuthenticated</code></li>
+          <li>DELETE — <code>isAuthenticated</code> + <code>isAdmin</code></li>
+        </ul>
+        <div class="files">
+          <span class="file-tag">middleware/admin.js</span>
+          <span class="file-tag">routes/resume_routes.js</span>
+          <span class="file-tag">routes/admin_user_routes.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-security">Security</span>
+        <div>
+          <div class="card-title">Unprotected mutation routes</div>
+          <div class="card-date">auth-unprotected-routes</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          <code>POST /api/exam/seed-exams</code> now requires
+          <code>isAuthenticated</code>. Legacy
+          <code>routes/skill_type_routes.js</code> (all mutations unprotected,
+          raw <code>res.send()</code> pattern) deleted entirely.
+        </p>
+        <div class="files">
+          <span class="file-tag">routes/exam_routes.js</span>
+          <span class="file-tag">routes/skill_type_routes.js (deleted)</span>
+          <span class="file-tag">startup/routes.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-done badge-cleanup">Cleanup</span>
+        <div>
+          <div class="card-title">
+            Duplicate delete routes &amp; missing await in addSkills
+          </div>
+          <div class="card-date">controllers/skill.js</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>
+          <code>DELETE /delete-all-skills</code> removed (identical to
+          <code>/delete-skills</code>). <code>deleteSkill</code> simplified to
+          single-delete via <code>findByIdAndDelete</code> — unreachable
+          bulk-via-body branches removed. <code>Skill.findOne()</code> in
+          <code>addSkills</code> was missing <code>await</code> causing the
+          duplicate check to always trigger (Query object is always truthy).
+        </p>
+        <div class="files">
+          <span class="file-tag">routes/resume_routes.js</span>
+          <span class="file-tag">controllers/skill.js</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Summary table ─────────────────────────────────────────────── -->
+    <h2>Current State</h2>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th>Rating</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Project structure</td>
+          <td class="good">Good</td>
+          <td>Clean folder layout, legacy routes removed</td>
+        </tr>
+        <tr>
+          <td>Auth security</td>
+          <td class="good">Good</td>
+          <td>Dual-token, signed cookies, bcrypt, RBAC</td>
+        </tr>
+        <tr>
+          <td>Error handling</td>
+          <td class="good">Good</td>
+          <td>Correct HTTP status codes, centralized handler</td>
+        </tr>
+        <tr>
+          <td>Input validation</td>
+          <td class="good">Good</td>
+          <td>Joi.object() + schema.validate() across all models</td>
+        </tr>
+        <tr>
+          <td>Testing</td>
+          <td class="partial">Partial</td>
+          <td>
+            catchError + rateLimit + sanitize covered; most routes untested
+          </td>
+        </tr>
+        <tr>
+          <td>Dead code</td>
+          <td class="good">Good</td>
+          <td>All bypasses removed, duplicate routes cleaned</td>
+        </tr>
+        <tr>
+          <td>Service layer</td>
+          <td class="good">Good</td>
+          <td>Email delegated to service modules</td>
+        </tr>
+        <tr>
+          <td>Rate limiting</td>
+          <td class="good">Good</td>
+          <td>Consolidated, bugs corrected</td>
+        </tr>
+        <tr>
+          <td>NoSQL injection</td>
+          <td class="good">Good</td>
+          <td>express-mongo-sanitize applied globally</td>
+        </tr>
+        <tr>
+          <td>Pagination</td>
+          <td class="good">Good</td>
+          <td>page/limit params with metadata</td>
+        </tr>
+        <tr>
+          <td>Request logging</td>
+          <td class="good">Good</td>
+          <td>Morgan → Winston, API routes only</td>
+        </tr>
+        <tr>
+          <td>SPA/API routing</td>
+          <td class="good">Good</td>
+          <td>API 404 handler, catch-all guard</td>
+        </tr>
+        <tr>
+          <td>Authorization (RBAC)</td>
+          <td class="good">Good</td>
+          <td>isAdmin middleware, role-gated DELETEs</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <footer>
+      react-portfolio-api &nbsp;·&nbsp; Sprint Summary &nbsp;·&nbsp; May 8–9,
+      2026
+    </footer>
+  </body>
+</html>

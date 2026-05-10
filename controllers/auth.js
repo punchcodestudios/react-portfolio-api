@@ -12,7 +12,7 @@ const {
 } = require("../utils/auth-utils");
 const { getTimeZoneDate } = require("../utils/date-utils");
 
-const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, NODE_ENV } = process.env;
+const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, NODE_ENV, ACCESS_TOKEN_LIFE, REFRESH_TOKEN_LIFE } = process.env;
 
 const dev = NODE_ENV === "development";
 
@@ -30,13 +30,13 @@ const generateAuthTokens = errorHandler(async (req, res, next) => {
     const refreshToken = generateJWT(
       user._id,
       REFRESH_TOKEN_SECRET,
-      getRefreshTokenTTL()
+      REFRESH_TOKEN_LIFE
     );
 
     const accessToken = generateJWT(
       user._id,
       ACCESS_TOKEN_SECRET,
-      getAccessTokenTTL()
+      ACCESS_TOKEN_LIFE
     );
 
     res.cookie("refreshToken", refreshToken, {
@@ -79,15 +79,10 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
       return next(createError(401, `Invalid or no refresh token`));
     }
 
-    // let refreshTokenInDB = tokens.find(
-    //   (token) => token.refreshToken === refreshToken
-    // );
-    // if (!refreshTokenInDB) {
-    //   const error = createError.Unauthorized();
-    //   throw error;
-    // }
-
-    // refreshTokenInDB = refreshTokenInDB.refreshToken;
+    const tokenInDB = await WebToken.findOne({ token: refreshToken });
+    if (!tokenInDB) {
+      return next(createError(401, "Refresh token is no longer valid"));
+    }
 
     let decodedToken;
     try {

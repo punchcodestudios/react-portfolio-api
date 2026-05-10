@@ -5,6 +5,7 @@ const skillController = require("../controllers/skill");
 const experienceController = require("../controllers/experience");
 const responseController = require("../controllers/response");
 const { isAuthenticated } = require("../controllers/auth");
+const isAdmin = require("../middleware/admin");
 
 router.get(
   "/get-all-skills",
@@ -42,18 +43,14 @@ router.post(
 router.delete(
   "/delete-skill/:id",
   isAuthenticated,
+  isAdmin,
   skillController.deleteSkill,
   responseController.sendSuccessResponse,
 );
 router.delete(
   "/delete-skills",
   isAuthenticated,
-  skillController.deleteAllSkills,
-  responseController.sendSuccessResponse,
-);
-router.delete(
-  "/delete-all-skills",
-  isAuthenticated,
+  isAdmin,
   skillController.deleteAllSkills,
   responseController.sendSuccessResponse,
 );
@@ -82,6 +79,7 @@ router.post(
 router.delete(
   "/delete-experience/:id",
   isAuthenticated,
+  isAdmin,
   experienceController.deleteExperience,
   responseController.sendSuccessResponse,
 );

@@ -1,4 +1,2 @@
-excellent - thank you.
-Now we need to update the delete method to accept an array of skills objects and delete all in the array.
-I am ambivolent as to whether or not we should have a 'deleteByID' method separate from a 'deleteAll' method or only a single consolidated method that will accept an array of any size and process only the array objects
-I am thinking the latter, but will follow your advice. 
+
+

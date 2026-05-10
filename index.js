@@ -81,6 +81,8 @@ app.set("views", path.join(__dirname, "views"));
 
 console.log("index.js: 105");
 
+app.use(express.static(path.join(__dirname, "public")));
+
 app.get("*", (req, res, next) => {
   if (req.path.startsWith("/api")) return next();
   res.sendFile(path.join(__dirname, "index.html"));

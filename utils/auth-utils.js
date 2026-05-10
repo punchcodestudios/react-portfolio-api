@@ -1,17 +1,14 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const ms = require("ms");
 
 const generateJWT = (userId, secret, expirationTime) => {
   return jwt.sign({ userId }, secret, { expiresIn: expirationTime });
 };
 
-const getAccessTokenTTL = (req, res) => {
-  return process.env.ACCESS_TOKEN_LIFE * 60 * 60 * 1000;
-};
+const getAccessTokenTTL = () => ms(process.env.ACCESS_TOKEN_LIFE);
 
-const getRefreshTokenTTL = () => {
-  return process.env.REFRESH_TOKEN_LIFE * 60 * 60 * 1000;
-};
+const getRefreshTokenTTL = () => ms(process.env.REFRESH_TOKEN_LIFE);
 
 const encodePassword = async (password) => {
   const saltRounds = 10;
