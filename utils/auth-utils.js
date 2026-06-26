@@ -23,7 +23,7 @@ const validatePassword = async (password, hash) => {
 
 const generateConfirmCode = async (digits) => {
   let array = [];
-  for (i = 0; i < digits; i++) {
+  for (let i = 0; i < digits; i++) {
     array.push(Math.floor(Math.random() * 10));
   }
   const code = array.join("");
