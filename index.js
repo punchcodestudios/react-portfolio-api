@@ -53,6 +53,7 @@ app.use(
       "Authorization",
       "Accept",
       "x-correlation-id",
+      "request-id",
     ],
   }),
 );
