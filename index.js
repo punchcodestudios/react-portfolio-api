@@ -35,7 +35,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "http://localhost:5173", // Vite dev server
+      "http://localhost:5173", // Vite dev server:portfolio
+      "http://localhost:5175", // Vite dev server:resume
       "https://punchcodestudios.com",
       "https://www.punchcodestudios.com",
       "http://punchcodestudios.com",
@@ -45,6 +46,7 @@ app.use(
       "http://punchcodestudio.com",
       "http://www.punchcodestudio.com",
       "https://pcs-portfolio-webapp.azurewebsites.net",
+      "https://patrick-schandler-resume-e344e5014d57.herokuapp.com/",
     ],
     credentials: false, // Set to true only if you need cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
