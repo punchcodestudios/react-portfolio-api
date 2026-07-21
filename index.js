@@ -47,6 +47,7 @@ app.use(
       "http://www.punchcodestudio.com",
       "https://pcs-portfolio-webapp.azurewebsites.net",
       "https://patrick-schandler-resume-e344e5014d57.herokuapp.com/",
+      "https://patrick-schandler.com",
     ],
     credentials: false, // Set to true only if you need cookies
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
